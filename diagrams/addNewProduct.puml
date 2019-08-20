@@ -1,0 +1,80 @@
+@startuml
+
+
+skinparam style strictuml
+
+
+actor "User" as user
+
+
+participant "Administration" as main <<main>>
+main++
+
+create "MainMenu" as menu <<frame>>
+main -> menu : construct
+
+user -> menu++ : clicks 'Add New Product' button
+
+
+create "ProductEditor" as editor <<dialog>>
+menu -> editor : construct(this, true)
+
+editor++
+
+
+create "ProductsListDAO" as dao <<DAO>>
+editor -> dao : construct 
+
+
+create "SimpleListModel" as modellist <<gui.helpers>>
+editor -> modellist : construct
+
+
+editor -> dao++ : getCategories() : allCategories
+dao--
+
+
+editor -> modellist++ : updateItems(allCategories)
+modellist--
+
+
+editor -> editor : setModel(categoryDisplay)
+
+editor--
+
+
+user -> editor++ : enters product details
+editor--
+
+user -> editor++ : clicks 'Save' button
+
+editor -> editor : use getText() to get attributes from GUI
+editor -> editor : convert number values to BigDecimal and Integer
+
+
+create "Product" as product <<domain>>
+editor -> product : construct
+
+
+editor -> product++ : use setters to set product attributes
+product-- 
+
+
+
+editor -> dao++ : save(product)
+dao--
+
+editor--
+
+
+user -> editor++ : clicks 'Cancel' button
+editor -> editor : dispose()
+
+
+editor --> menu 
+destroy editor
+
+menu --> user-- : awaiting next operation
+
+@enduml
+

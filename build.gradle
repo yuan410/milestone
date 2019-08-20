@@ -1,0 +1,22 @@
+plugins {
+	id "application"
+}
+
+repositories {
+   jcenter()
+}
+
+dependencies {
+   testImplementation group: 'junit', name: 'junit', version: '4.+'
+   implementation group: 'com.google.guava', name : 'guava', version: '28.0-jre'
+   implementation group:'net.sf.oval', name: 'oval', version: '1.90'
+  compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.6' 
+   //implementation group: 'com.h2database', name: 'h2', version: '1.4.+'
+
+}
+
+run {
+	standardInput = System.in
+}
+
+mainClassName = "Administration"
