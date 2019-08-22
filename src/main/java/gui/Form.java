@@ -35,7 +35,7 @@ public class Form extends javax.swing.JDialog {
      */
     
     ///////////////////lab6-dao////////////////
-    public Form(java.awt.Frame parent, boolean modal, NewInterface dao) {
+    public Form(Window parent, boolean modal, NewInterface dao) {
         super(parent);
          super.setModal(modal);
         initComponents();
@@ -48,7 +48,7 @@ public class Form extends javax.swing.JDialog {
     }
     
    //////////////////////////////////////////bonus1
-    public Form(Window parent, boolean modal, Product productToEdit, NewInterface productDao) {
+    public Form(Window parent, boolean modal, Product productToEdit, NewInterface dao) {
         this(parent, modal,dao);
         
         this.product = productToEdit;

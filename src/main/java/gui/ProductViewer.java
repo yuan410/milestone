@@ -238,21 +238,31 @@ this.dao=dao;
     private void buttonEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEditActionPerformed
         Product product = (Product)productsList.getSelectedValue();
 
-        if(productsList.isSelectionEmpty()){
-            JOptionPane.showMessageDialog(this, "Please select a Product before editing!", "Warning", JOptionPane.INFORMATION_MESSAGE);
-        }else{
-            Form dialog = new Form (this, true, product, this.dao);
+ if (!productsList.isSelectionEmpty()) {
+            // Pull the selected product out of the JList
+            try {
+                Product selectedProd = productsList.getSelectedValue();
+                
+                // Open a product editor dialog
+                Form editProduct = new Form(this, true, selectedProd, dao);
+                editProduct.setLocationRelativeTo(this);
+                editProduct.setVisible(true);
+                
+                // Also update the ComboBox in case categories have changed
+                Collection<String> newCategories = dao.getCategories();
+                myModel.updateItems(newCategories);                
+                
+                // Update the JList to reflect the changes
+                Collection<Product> updatedProducts = dao.getProducts();
+                myModel.updateItems(updatedProducts);
 
-            // centre the dialog on the parent window
-            dialog.setLocationRelativeTo(this);
 
-            // make the dialog visible
-            dialog.setVisible(true);
-
-            //will only run after dialog is closed
-            Collection<domain.Product> products = dao.getProducts();
-            myModel.updateItems(products);
-            productsList.setModel(myModel);
+            }
+            catch (Exception e) {
+                // User clicked edit on empty List Model!
+                // Why is the list model not updating above?
+            }
+            
         }
     }
 ///////////////////////////////////bonus1////////////
